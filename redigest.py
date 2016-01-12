@@ -45,3 +45,5 @@ def main():
         for site in sorted(resites):
             print site
         break
+
+if __name__ == '__main__': main()
