@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import re
+from collections import Counter
 
 HaeIII = ('GGCC', 'GG', 'CC')
 EcoRI = ('GAATTC', 'G', 'AATTC')
@@ -34,16 +35,20 @@ def readFasta(fn):
 def findRESites(seq, enzymes):
     sites = set()
     for recseq, end1, end2 in enzymes:
-        for site in re.finditer(recseq):
+        for site in re.finditer(recseq, seq):
             sites.add(site.start() + len(end1))
     return sites
 
 def main():
     fn = sys.argv[1]
     for id_, seq in readFasta(fn):
-        resites = findRESites(seq, RESTRICTION_ENZYMES)
-        for site in sorted(resites):
-            print site
+        resites = sorted(findRESites(seq, RESTRICTION_ENZYMES))
+        lengths = []
+        for i, site in enumerate(resites[1:]):
+            lengths.append(site - resites[i - 1])
+        c = Counter(lengths)
+        for l in sorted(c):
+            print l, c[l]
         break
 
 if __name__ == '__main__': main()
