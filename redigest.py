@@ -45,10 +45,12 @@ def main():
         resites = sorted(findRESites(seq, RESTRICTION_ENZYMES))
         lengths = []
         for i, site in enumerate(resites[1:]):
-            lengths.append(site - resites[i - 1])
-        c = Counter(lengths)
-        for l in sorted(c):
-            print l, c[l]
+            #lengths.append(site - resites[i - 1])
+            print resites[i - 1], site - resites[i - 1] + 1
+
+        #c = Counter(lengths)
+        #for l in sorted(c):
+        #    print l, c[l]
         break
 
 if __name__ == '__main__': main()
